@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg viewBox="0 0 200 154">
+	<property id="BackColor" value="#ffffff" />
+	<property id="BorderColor" value="#cccccc" />
+	<property id="Banner" value="#217346" />
+	<property id="ArrowBackground" value="#e8e8e8" />
+	<rect fill="url(#BackColor)" stroke="url(#BorderColor)" stroke-width="1" x="0" y="0" width="200" height="154"/>
+	<rect fill="url(#Banner)"  x="1" y="105" width="158" height="48"/>
+	<circle fill="url(#ArrowBackground)" stroke="url(#BackColor)" stroke-width="4" cx="159" cy="128" r="23" />
+	<line stroke="url(#Banner)" stroke-width="4" x1="148" y1="128" x2="168" y2="128" />
+	<line stroke="url(#Banner)" stroke-width="4" x1="158" y1="118" x2="168" y2="128" />
+	<line stroke="url(#Banner)" stroke-width="4" x1="158" y1="138" x2="168" y2="128" />
+</svg>
