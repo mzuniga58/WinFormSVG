@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg viewBox="0 0 24 24" Title="DownArrow">
+<svg viewBox="0 0 24 24" Title="RightArrow">
 	<property id="BackColor" value="#ffffff" />
 	<property id="BorderColor" value="#000000" />
 	<property id="IconOutline" value="#000000" />
 	<rect fill="url(#BackColor)" stroke="url(#BorderColor)" stroke-width="2" x="0" y="0" rx="6" width="24" height="24"/>
-	<polyline points="7,10 11,14 15,10," stroke="url(#IconOutline)" stroke-width="1" />
+	<polyline points="10,8 14,12 10,16," stroke="url(#IconOutline)" stroke-width="1" />
 </svg>

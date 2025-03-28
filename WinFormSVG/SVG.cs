@@ -1,9 +1,5 @@
-﻿using System.Xml;
-using System.Drawing.Imaging;
-using System.Drawing.Drawing2D;
-using System.Diagnostics.Eventing.Reader;
-using System.Runtime.ConstrainedExecution;
-using System.Drawing;
+﻿using System.Drawing.Drawing2D;
+using System.Xml;
 
 namespace WinFormSVG
 {
@@ -42,53 +38,191 @@ namespace WinFormSVG
 		#endregion
 
 		#region Drawing
-		public Bitmap Render(Rectangle rc, Dictionary<string,string>? Properties = null)
-        {
-            rcRender = new Rectangle(0, 0, rc.Width, rc.Height);
-            Bitmap canvas = new(rc.Width, rc.Height);
-            var svgNodes = _document.GetElementsByTagName("svg");
+		public Bitmap Render(Rectangle rc, Dictionary<string, string>? Properties = null)
+		{
+			rcRender = new Rectangle(0, 0, rc.Width, rc.Height);
+			Bitmap canvas = new(rc.Width, rc.Height);
+			var svgNodes = _document.GetElementsByTagName("svg");
 
-            if ( svgNodes != null )
-            {
-                if (svgNodes.Count > 0)
-                {
-                    var svgNode = svgNodes[0];
+			if (svgNodes != null)
+			{
+				if (svgNodes.Count > 0)
+				{
+					var svgNode = svgNodes[0];
 
-                    if (svgNode != null)
-                    {
-                        ExtractSVGParameters(svgNode);
+					if (svgNode != null)
+					{
+						ExtractSVGParameters(svgNode);
 
-                        if (Properties != null)
-                        {
-                            foreach (var property in Properties)
-                            {
-                                var key = property.Key;
-                                var value = property.Value;
+						if (Properties != null)
+						{
+							foreach (var property in Properties)
+							{
+								var key = property.Key;
+								var value = property.Value;
 
-                                if (properties.ContainsKey(key))
-                                    properties[key] = value;
-                            }
-                        }
+								if (properties.ContainsKey(key))
+									properties[key] = value;
+							}
+						}
 
-                        using var g = Graphics.FromImage(canvas);
-                        g.SmoothingMode = SmoothingMode.HighQuality;
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+						using var g = Graphics.FromImage(canvas);
+						g.SmoothingMode = SmoothingMode.HighQuality;
+						g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
 						scaleX = rcRender.Width / ViewBox.Width;
 						scaleY = rcRender.Height / ViewBox.Height;
 
 						foreach (XmlNode node in svgNode.ChildNodes)
-                        {
-                            RenderNode(g, 1, node);
-                        }
-                    }
-                }
-            }
+						{
+							RenderNode(g, 1, node);
+						}
+					}
+				}
+			}
 
-            return canvas;
-        }
+			return canvas;
+		}
 
-        private void ExtractSVGParameters(XmlNode svgNode)
+		public Bitmap Render(RectangleF rc, Dictionary<string, string>? Properties = null)
+		{
+			rcRender = new Rectangle(0, 0, Convert.ToInt32(rc.Width), Convert.ToInt32(rc.Height));
+			Bitmap canvas = new(Convert.ToInt32(rc.Width), Convert.ToInt32(rc.Height));
+			var svgNodes = _document.GetElementsByTagName("svg");
+
+			if (svgNodes != null)
+			{
+				if (svgNodes.Count > 0)
+				{
+					var svgNode = svgNodes[0];
+
+					if (svgNode != null)
+					{
+						ExtractSVGParameters(svgNode);
+
+						if (Properties != null)
+						{
+							foreach (var property in Properties)
+							{
+								var key = property.Key;
+								var value = property.Value;
+
+								if (properties.ContainsKey(key))
+									properties[key] = value;
+							}
+						}
+
+						using var g = Graphics.FromImage(canvas);
+						g.SmoothingMode = SmoothingMode.HighQuality;
+						g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+						scaleX = rcRender.Width / ViewBox.Width;
+						scaleY = rcRender.Height / ViewBox.Height;
+
+						foreach (XmlNode node in svgNode.ChildNodes)
+						{
+							RenderNode(g, 1, node);
+						}
+					}
+				}
+			}
+
+			return canvas;
+		}
+
+		public void Render(Graphics canvasGraphics, Rectangle rc, Dictionary<string, string>? Properties = null)
+		{
+			rcRender = new Rectangle(0, 0, rc.Width, rc.Height);
+			Bitmap canvas = new(rc.Width, rc.Height);
+			var svgNodes = _document.GetElementsByTagName("svg");
+
+			if (svgNodes != null)
+			{
+				if (svgNodes.Count > 0)
+				{
+					var svgNode = svgNodes[0];
+
+					if (svgNode != null)
+					{
+						ExtractSVGParameters(svgNode);
+
+						if (Properties != null)
+						{
+							foreach (var property in Properties)
+							{
+								var key = property.Key;
+								var value = property.Value;
+
+								if (properties.ContainsKey(key))
+									properties[key] = value;
+							}
+						}
+
+						using var g = Graphics.FromImage(canvas);
+						g.SmoothingMode = SmoothingMode.HighQuality;
+						g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+						scaleX = rcRender.Width / ViewBox.Width;
+						scaleY = rcRender.Height / ViewBox.Height;
+
+						foreach (XmlNode node in svgNode.ChildNodes)
+						{
+							RenderNode(g, 1, node);
+						}
+					}
+				}
+			}
+
+			canvasGraphics.DrawImage(canvas, rc);
+		}
+
+		public void Render(Graphics canvasGraphics, RectangleF rc, Dictionary<string, string>? Properties = null)
+		{
+			rcRender = new Rectangle(0, 0, Convert.ToInt32(rc.Width), Convert.ToInt32(rc.Height));
+			Bitmap canvas = new(Convert.ToInt32(rc.Width), Convert.ToInt32(rc.Height));
+			var svgNodes = _document.GetElementsByTagName("svg");
+
+			if (svgNodes != null)
+			{
+				if (svgNodes.Count > 0)
+				{
+					var svgNode = svgNodes[0];
+
+					if (svgNode != null)
+					{
+						ExtractSVGParameters(svgNode);
+
+						if (Properties != null)
+						{
+							foreach (var property in Properties)
+							{
+								var key = property.Key;
+								var value = property.Value;
+
+								if (properties.ContainsKey(key))
+									properties[key] = value;
+							}
+						}
+
+						using var g = Graphics.FromImage(canvas);
+						g.SmoothingMode = SmoothingMode.HighQuality;
+						g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+						scaleX = rcRender.Width / ViewBox.Width;
+						scaleY = rcRender.Height / ViewBox.Height;
+
+						foreach (XmlNode node in svgNode.ChildNodes)
+						{
+							RenderNode(g, 1, node);
+						}
+					}
+				}
+			}
+
+			canvasGraphics.DrawImage(canvas, rc);
+		}
+
+		private void ExtractSVGParameters(XmlNode svgNode)
         {
             Width = Convert.ToSingle(svgNode?.Attributes?["width"]?.Value ?? "100");
             Height = Convert.ToSingle(svgNode?.Attributes?["height"]?.Value ?? "100");
@@ -352,9 +486,6 @@ namespace WinFormSVG
                 //  In order to draw a rectangle, at a minimum, we must have a set of coordinates
                 if (rX != null && rY != null && rCX != null && rCY != null)
                 {
-                    if (strokeWidth == null || strokeWidth < 1.0f)
-                        strokeWidth = 1.0f;
-
                     var x = Convert.ToSingle(rcRender.Left + (rX - ViewBox.Left) * scaleX);
                     var y = Convert.ToSingle(rcRender.Top + (rY - ViewBox.Top) * scaleY);
                     var cx = Convert.ToSingle(rCX * scaleX);
@@ -374,7 +505,7 @@ namespace WinFormSVG
                         Color clr = Color.FromArgb(Convert.ToInt32(opacity * 255), fill.Value.R, fill.Value.G, fill.Value.B);
                         var brFill = new SolidBrush(clr);
 
-                        if (fill != null)
+                        if (stroke != null)
                         {
                             if ((rx == null || rx == 0) && (ry == null || ry == 0))
                                 g.FillRectangle(brFill, new RectangleF(x, y, cx, cy));
@@ -390,10 +521,15 @@ namespace WinFormSVG
                         }
                     }
 
-                    if (stroke != null)
+                    if (stroke != null )
                     {
                         Color clr = Color.FromArgb(Convert.ToInt32(opacity * 255), stroke.Value.R, stroke.Value.G, stroke.Value.B);
-                        var penStroke = new Pen(clr, (float)strokeWidth);
+						var wx = strokeWidth.Value * scaleX;
+						var wy = strokeWidth.Value * scaleY;
+
+						var w = (wx < wy) ? wx : wy;
+
+						var penStroke = new Pen(clr, w);
 
                         if ((rx == null || rx == 0) && (ry == null || ry == 0))
                             g.DrawRectangle(penStroke, new RectangleF(x, y, cx - 1, cy - 1));
@@ -443,6 +579,11 @@ namespace WinFormSVG
 			if (string.IsNullOrWhiteSpace(coordinate)) return null;
             var coord = coordinate;
 
+            if (coordinate.Equals("none", StringComparison.OrdinalIgnoreCase))
+            {
+                return null;
+            }
+
 			if (coordinate.StartsWith("url(#"))
 			{
 				var key = coordinate.Substring(5, coordinate.Length - 6);
@@ -484,6 +625,11 @@ namespace WinFormSVG
             {
                 var key = clr.Substring(5, clr.Length - 6);
                 color = properties[key];
+
+                if (color.Equals("none", StringComparison.OrdinalIgnoreCase))
+                {
+                    return null;
+                }
             }
 
             if (color[0] == '#')

@@ -6,10 +6,17 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WinFormSVG\WinFormSVG.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Sample.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
